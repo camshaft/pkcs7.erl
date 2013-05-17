@@ -1,0 +1,8 @@
+{application, pkcs7, [
+  {id, "pkcs7"},
+  {description, "PKCS7 binary padding for erlang"},
+  {vsn, "1.0.0"},
+  {registered, []},
+  {applications, [kernel, stdlib]},
+  {env, []}
+]}.
