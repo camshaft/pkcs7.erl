@@ -41,8 +41,23 @@ pad(Bin, 16) ->
   <<Bin/binary,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16>>.
 
 unpad(Bin) ->
-  Length = byte_size(Bin),
-  Padding = binary:last(Bin),
-  DataLength = Length-Padding,
-  <<Data:DataLength/binary, _:Padding/binary>> = Bin,
-  Data.
+  Size = byte_size(Bin) - binary:last(Bin),
+  case Bin of
+      <<Data:Size/binary,1>> -> Data;
+      <<Data:Size/binary,2,2>> -> Data;
+      <<Data:Size/binary,3,3,3>> -> Data;
+      <<Data:Size/binary,4,4,4,4>> -> Data;
+      <<Data:Size/binary,5,5,5,5,5>> -> Data;
+      <<Data:Size/binary,6,6,6,6,6,6>> -> Data;
+      <<Data:Size/binary,7,7,7,7,7,7,7>> -> Data;
+      <<Data:Size/binary,8,8,8,8,8,8,8,8>> -> Data;
+      <<Data:Size/binary,9,9,9,9,9,9,9,9,9>> -> Data;
+      <<Data:Size/binary,10,10,10,10,10,10,10,10,10,10>> -> Data;
+      <<Data:Size/binary,11,11,11,11,11,11,11,11,11,11,11>> -> Data;
+      <<Data:Size/binary,12,12,12,12,12,12,12,12,12,12,12,12>> -> Data;
+      <<Data:Size/binary,13,13,13,13,13,13,13,13,13,13,13,13,13>> -> Data;
+      <<Data:Size/binary,14,14,14,14,14,14,14,14,14,14,14,14,14,14>> -> Data;
+      <<Data:Size/binary,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15>> -> Data;
+      <<Data:Size/binary,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16>> -> Data;
+      _ -> erlang:error(bad_padding)
+  end.
