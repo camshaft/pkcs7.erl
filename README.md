@@ -1,4 +1,4 @@
-pkcs7.erl [![Build Status](https://travis-ci.org/CamShaft/pkcs7.erl.png?branch=master)](https://travis-ci.org/CamShaft/pkcs7.erl)
+pkcs7.erl [![Build Status](https://travis-ci.org/camshaft/pkcs7.erl.png?branch=master)](https://travis-ci.org/camshaft/pkcs7.erl)
 =========
 
 PKCS7 binary padding for erlang
