@@ -15,4 +15,16 @@ defmodule PKCS7.Test do
       bin == PKCS7.unpad(padded)
     end
   end
+
+  property :bad_padding do
+    for_all bin in binary() do
+      try do
+        PKCS7.unpad(bin)
+        PKCS7.pad(bin) == bin || bin == <<>>
+      rescue
+        _err in PKCS7.BadPaddingError ->
+          true
+      end
+    end
+  end
 end

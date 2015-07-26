@@ -40,24 +40,29 @@ pad(Bin, 15) ->
 pad(Bin, 16) ->
   <<Bin/binary,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16>>.
 
+unpad(<<>>) ->
+  <<>>;
 unpad(Bin) ->
-  Size = byte_size(Bin) - binary:last(Bin),
+  Last = binary:last(Bin),
+  Size = byte_size(Bin) - Last,
+  RemSize = Size rem 16,
+
   case Bin of
-      <<Data:Size/binary,1>> -> Data;
-      <<Data:Size/binary,2,2>> -> Data;
-      <<Data:Size/binary,3,3,3>> -> Data;
-      <<Data:Size/binary,4,4,4,4>> -> Data;
-      <<Data:Size/binary,5,5,5,5,5>> -> Data;
-      <<Data:Size/binary,6,6,6,6,6,6>> -> Data;
-      <<Data:Size/binary,7,7,7,7,7,7,7>> -> Data;
-      <<Data:Size/binary,8,8,8,8,8,8,8,8>> -> Data;
-      <<Data:Size/binary,9,9,9,9,9,9,9,9,9>> -> Data;
-      <<Data:Size/binary,10,10,10,10,10,10,10,10,10,10>> -> Data;
-      <<Data:Size/binary,11,11,11,11,11,11,11,11,11,11,11>> -> Data;
-      <<Data:Size/binary,12,12,12,12,12,12,12,12,12,12,12,12>> -> Data;
-      <<Data:Size/binary,13,13,13,13,13,13,13,13,13,13,13,13,13>> -> Data;
-      <<Data:Size/binary,14,14,14,14,14,14,14,14,14,14,14,14,14,14>> -> Data;
-      <<Data:Size/binary,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15>> -> Data;
-      <<Data:Size/binary,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16>> -> Data;
-      _ -> erlang:error(bad_padding)
+    <<Data:Size/binary,1>> when RemSize == 15 -> Data;
+    <<Data:Size/binary,2,2>> when RemSize == 14 -> Data;
+    <<Data:Size/binary,3,3,3>> when RemSize == 13 -> Data;
+    <<Data:Size/binary,4,4,4,4>> when RemSize == 12 -> Data;
+    <<Data:Size/binary,5,5,5,5,5>> when RemSize == 11 -> Data;
+    <<Data:Size/binary,6,6,6,6,6,6>> when RemSize == 10 -> Data;
+    <<Data:Size/binary,7,7,7,7,7,7,7>> when RemSize == 9 -> Data;
+    <<Data:Size/binary,8,8,8,8,8,8,8,8>> when RemSize == 8 -> Data;
+    <<Data:Size/binary,9,9,9,9,9,9,9,9,9>> when RemSize == 7 -> Data;
+    <<Data:Size/binary,10,10,10,10,10,10,10,10,10,10>> when RemSize == 6 -> Data;
+    <<Data:Size/binary,11,11,11,11,11,11,11,11,11,11,11>> when RemSize == 5 -> Data;
+    <<Data:Size/binary,12,12,12,12,12,12,12,12,12,12,12,12>> when RemSize == 4 -> Data;
+    <<Data:Size/binary,13,13,13,13,13,13,13,13,13,13,13,13,13>> when RemSize == 3 -> Data;
+    <<Data:Size/binary,14,14,14,14,14,14,14,14,14,14,14,14,14,14>> when RemSize == 2 -> Data;
+    <<Data:Size/binary,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15>> when RemSize == 1 -> Data;
+    <<Data:Size/binary,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16>> when RemSize == 0 -> Data;
+    _ -> erlang:error(bad_padding)
   end.
